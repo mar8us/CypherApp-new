@@ -4,7 +4,7 @@ class CryptoModel
 {
 public:
 
-	CryptoModel() { };
-	~CryptoModel() { };
+	CryptoModel() { }
+	~CryptoModel(){ }
 	virtual void saveToFile() = 0;
 };
