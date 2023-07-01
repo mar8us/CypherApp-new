@@ -1,6 +1,20 @@
 #pragma once
 #include "cryptoModel.h"
-class aesModel : public CryptoModel
+
+
+class AesModel : public CryptoModel
 {
-	void saveToFile() override;
+public:
+	bool encryptAes(const std::vector<unsigned char>& input);
+	void setKeyLength(int keyLength);
+	std::vector<unsigned char> generateKey();
+	std::vector<unsigned char> generateIV();
+	void saveToFile(std::string filePath) override;
+	//void saveKey(std::string filePath);
+	//void saveIV(std::string filePath);
+	//void saveEncryptedText(std::string filePath);
+
+private:
+	const EVP_CIPHER* cipher_mode;// = nullptr;
+	int key_size;
 };

@@ -1,6 +1,6 @@
 #include "gui_CypherApp.h"
-
-
+#include "cryptoModel.h"
+/*
 #include <vector>
 #include <string>
 #include <fstream>
@@ -9,7 +9,7 @@
 #include <sstream>
 #include <msclr\marshal_cppstd.h>
 #include <algorithm>
-
+*/
 using namespace System;
 using namespace System::Windows::Forms;
 using namespace System::Text;
@@ -22,9 +22,13 @@ using namespace std;
 [STAThreadAttribute]
 void main()
 {
+    OpenSSLInitializer* opensslInitializer = new OpenSSLInitializer;
+    
     Application::EnableVisualStyles();
     Application::SetCompatibleTextRenderingDefault(false);
     newCypherApp::cypherApp form;
     Application::Run(% form);
+
+    delete opensslInitializer;    
 }
 
