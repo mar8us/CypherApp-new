@@ -1,12 +1,8 @@
 #include "aesModel.h"
 #include <openssl/rand.h>
+#include <fstream>
+#include <iostream>
 
-
-bool AesModel::encryptAes(const std::vector<unsigned char>& input)
-{
-	std::vector<unsigned char> iv = generateIV();
-    return true;
-}
 
 void AesModel::setKeyLength(int keyLenght)
 {
@@ -25,19 +21,64 @@ void AesModel::setKeyLength(int keyLenght)
             break;
     }
     key_size = EVP_CIPHER_key_length(cipher_mode);
+    key.resize(key_size);
 }
 
-std::vector<unsigned char> AesModel::generateKey() 
+void AesModel::generateKey() 
 {
-    std::vector<unsigned char> key(key_size);
     RAND_bytes(key.data(), key.size());
-    return key;
 }
 
-std::vector<unsigned char> AesModel::generateIV() 
+void AesModel::generateIV() 
 {
     size_t size = EVP_CIPHER_iv_length(cipher_mode);
-    std::vector<unsigned char> iv(size);
+    iv.resize(size);
     RAND_bytes(iv.data(), size);
-    return iv;
+}
+
+bool AesModel::encryptAes(const std::vector<unsigned char>& input)
+{
+    if (key.empty() || iv.empty())
+        return false;
+
+    EVP_CIPHER_CTX* ctx = EVP_CIPHER_CTX_new();
+    if (!(ctx))
+        return false;
+
+    if (EVP_EncryptInit_ex(ctx, cipher_mode, nullptr, key.data(), iv.data()) != 1) 
+    {
+        EVP_CIPHER_CTX_free(ctx);
+        return false;
+    }
+
+    std::vector<unsigned char> output(input.size() + EVP_CIPHER_CTX_block_size(ctx));
+    int out_len = 0;
+
+    if (EVP_EncryptUpdate(ctx, output.data(), &out_len, input.data(), input.size()) != 1) 
+    {
+        EVP_CIPHER_CTX_free(ctx);
+        return false;
+    }
+    int final_len = 0;
+
+    if (EVP_EncryptFinal_ex(ctx, output.data() + out_len, &final_len) != 1) 
+    {
+        EVP_CIPHER_CTX_free(ctx);
+        return false;
+    }
+    output.resize(out_len + final_len);
+    EVP_CIPHER_CTX_free(ctx);
+
+    cypher_msg.clear();
+    cypher_msg.insert(cypher_msg.end(), output.begin(), output.end());
+    return true;
+}
+
+void AesModel::saveToFile(std::string filePath)
+{
+    std::ofstream out(filePath, std::ios::binary);
+    if (!out)
+        out.write(reinterpret_cast<const char*>(iv.data()), iv.size()); // Zapisz IV przed zaszyfrowanymi danymi
+    out.write(reinterpret_cast<const char*>(cypher_msg.data()), cypher_msg.size());
+    out.close();
 }
