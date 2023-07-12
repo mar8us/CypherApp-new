@@ -125,6 +125,7 @@
     <ClCompile Include="shaModel.cpp" />
     <ClCompile Include="aesModel.cpp" />
     <ClCompile Include="rsaModel.cpp" />
+    <ClCompile Include="toolsToConvert.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="exportModel.h" />
@@ -135,6 +136,7 @@
     <ClInclude Include="shaModel.h" />
     <ClInclude Include="cryptoModel.h" />
     <ClInclude Include="aesModel.h" />
+    <ClInclude Include="toolsToConvert.h" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
