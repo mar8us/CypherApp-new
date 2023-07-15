@@ -4,7 +4,7 @@
 #include <vector>
 #include <openssl/evp.h>
 #include <openssl/provider.h>
-
+#include <stdexcept>
 
 class CryptoModel
 {
@@ -21,7 +21,7 @@ public:
     OpenSSLInitializer() {
         prov = OSSL_PROVIDER_load(NULL, "default");
         if (!prov) {
-            // Handle error
+            throw std::runtime_error("Failed to load OpenSSL provider");
         }
     }
 

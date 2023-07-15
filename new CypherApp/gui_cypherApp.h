@@ -51,8 +51,9 @@ namespace newCypherApp {
 	private: System::Windows::Forms::TabPage^ tabPage2;
 	private: System::Windows::Forms::TabPage^ tabPage3;
 	private: System::Windows::Forms::Button^ aesEncrypt;
-	private: System::Windows::Forms::RadioButton^ aesCheckText;
-	private: System::Windows::Forms::TextBox^ aesTextToEnc;
+
+	private: System::Windows::Forms::TextBox^ AESEncryptTextBox;
+
 
 
 	private: System::Windows::Forms::ComboBox^ aesKeyLen;
@@ -60,12 +61,15 @@ namespace newCypherApp {
 
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Label^ label3;
-	private: System::Windows::Forms::RadioButton^ aesLoadText;
-	private: System::Windows::Forms::Button^ button1;
+
+
+
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::TextBox^ aesKey;
+	private: System::Windows::Forms::Button^ load_formFile;
+	private: System::Windows::Forms::Button^ rsaEnc;
 	private: System::Windows::Forms::CheckBox^ aesGenerateKey;
-
+	bool checkSetKey();
 
 
 	protected:
@@ -90,9 +94,8 @@ namespace newCypherApp {
 			this->tabPage4 = (gcnew System::Windows::Forms::TabPage());
 			this->gridAesEn = (gcnew System::Windows::Forms::DataGridView());
 			this->aesPanelEn = (gcnew System::Windows::Forms::Panel());
+			this->load_formFile = (gcnew System::Windows::Forms::Button());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->aesLoadText = (gcnew System::Windows::Forms::RadioButton());
-			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->aesKey = (gcnew System::Windows::Forms::TextBox());
 			this->aesGenerateKey = (gcnew System::Windows::Forms::CheckBox());
@@ -100,10 +103,10 @@ namespace newCypherApp {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->aesKeyLen = (gcnew System::Windows::Forms::ComboBox());
 			this->aesEncrypt = (gcnew System::Windows::Forms::Button());
-			this->aesCheckText = (gcnew System::Windows::Forms::RadioButton());
-			this->aesTextToEnc = (gcnew System::Windows::Forms::TextBox());
+			this->AESEncryptTextBox = (gcnew System::Windows::Forms::TextBox());
 			this->tabPage5 = (gcnew System::Windows::Forms::TabPage());
 			this->tabPage2 = (gcnew System::Windows::Forms::TabPage());
+			this->rsaEnc = (gcnew System::Windows::Forms::Button());
 			this->tabPage3 = (gcnew System::Windows::Forms::TabPage());
 			this->aesTabCtrl->SuspendLayout();
 			this->tabPage1->SuspendLayout();
@@ -111,6 +114,7 @@ namespace newCypherApp {
 			this->tabPage4->SuspendLayout();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gridAesEn))->BeginInit();
 			this->aesPanelEn->SuspendLayout();
+			this->tabPage2->SuspendLayout();
 			this->SuspendLayout();
 			// 
 			// aesTabCtrl
@@ -172,9 +176,8 @@ namespace newCypherApp {
 			// 
 			// aesPanelEn
 			// 
+			this->aesPanelEn->Controls->Add(this->load_formFile);
 			this->aesPanelEn->Controls->Add(this->label3);
-			this->aesPanelEn->Controls->Add(this->aesLoadText);
-			this->aesPanelEn->Controls->Add(this->button1);
 			this->aesPanelEn->Controls->Add(this->label2);
 			this->aesPanelEn->Controls->Add(this->aesKey);
 			this->aesPanelEn->Controls->Add(this->aesGenerateKey);
@@ -182,13 +185,22 @@ namespace newCypherApp {
 			this->aesPanelEn->Controls->Add(this->label1);
 			this->aesPanelEn->Controls->Add(this->aesKeyLen);
 			this->aesPanelEn->Controls->Add(this->aesEncrypt);
-			this->aesPanelEn->Controls->Add(this->aesCheckText);
-			this->aesPanelEn->Controls->Add(this->aesTextToEnc);
+			this->aesPanelEn->Controls->Add(this->AESEncryptTextBox);
 			this->aesPanelEn->Dock = System::Windows::Forms::DockStyle::Left;
 			this->aesPanelEn->Location = System::Drawing::Point(3, 3);
 			this->aesPanelEn->Name = L"aesPanelEn";
 			this->aesPanelEn->Size = System::Drawing::Size(651, 538);
 			this->aesPanelEn->TabIndex = 0;
+			// 
+			// load_formFile
+			// 
+			this->load_formFile->Location = System::Drawing::Point(36, 133);
+			this->load_formFile->Name = L"load_formFile";
+			this->load_formFile->Size = System::Drawing::Size(582, 34);
+			this->load_formFile->TabIndex = 12;
+			this->load_formFile->Text = L"Za³aduj z pliku";
+			this->load_formFile->UseVisualStyleBackColor = true;
+			this->load_formFile->Click += gcnew System::EventHandler(this, &cypherApp::load_formFile_Click);
 			// 
 			// label3
 			// 
@@ -198,25 +210,6 @@ namespace newCypherApp {
 			this->label3->Size = System::Drawing::Size(129, 17);
 			this->label3->TabIndex = 11;
 			this->label3->Text = L"Zaszyfrowany tekst";
-			// 
-			// aesLoadText
-			// 
-			this->aesLoadText->AutoSize = true;
-			this->aesLoadText->Location = System::Drawing::Point(35, 59);
-			this->aesLoadText->Name = L"aesLoadText";
-			this->aesLoadText->Size = System::Drawing::Size(120, 21);
-			this->aesLoadText->TabIndex = 10;
-			this->aesLoadText->Text = L"Za³aduj z pliku";
-			this->aesLoadText->UseVisualStyleBackColor = true;
-			// 
-			// button1
-			// 
-			this->button1->Location = System::Drawing::Point(161, 52);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(457, 35);
-			this->button1->TabIndex = 9;
-			this->button1->Text = L"Za³aduj z pliku";
-			this->button1->UseVisualStyleBackColor = true;
 			// 
 			// label2
 			// 
@@ -246,10 +239,10 @@ namespace newCypherApp {
 			// 
 			// aesTextOut
 			// 
-			this->aesTextOut->Location = System::Drawing::Point(161, 393);
+			this->aesTextOut->Location = System::Drawing::Point(36, 393);
 			this->aesTextOut->Multiline = true;
 			this->aesTextOut->Name = L"aesTextOut";
-			this->aesTextOut->Size = System::Drawing::Size(457, 88);
+			this->aesTextOut->Size = System::Drawing::Size(582, 88);
 			this->aesTextOut->TabIndex = 5;
 			// 
 			// label1
@@ -263,6 +256,7 @@ namespace newCypherApp {
 			// 
 			// aesKeyLen
 			// 
+			this->aesKeyLen->Cursor = System::Windows::Forms::Cursors::Default;
 			this->aesKeyLen->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			this->aesKeyLen->FormatString = L"N0";
 			this->aesKeyLen->FormattingEnabled = true;
@@ -283,25 +277,13 @@ namespace newCypherApp {
 			this->aesEncrypt->UseVisualStyleBackColor = true;
 			this->aesEncrypt->Click += gcnew System::EventHandler(this, &cypherApp::aesEncrypt_Click);
 			// 
-			// aesCheckText
+			// AESEncryptTextBox
 			// 
-			this->aesCheckText->AutoSize = true;
-			this->aesCheckText->Checked = true;
-			this->aesCheckText->Location = System::Drawing::Point(35, 141);
-			this->aesCheckText->Name = L"aesCheckText";
-			this->aesCheckText->Size = System::Drawing::Size(101, 21);
-			this->aesCheckText->TabIndex = 1;
-			this->aesCheckText->TabStop = true;
-			this->aesCheckText->Text = L"Wpisz tekst";
-			this->aesCheckText->UseVisualStyleBackColor = true;
-			// 
-			// aesTextToEnc
-			// 
-			this->aesTextToEnc->Location = System::Drawing::Point(161, 108);
-			this->aesTextToEnc->Multiline = true;
-			this->aesTextToEnc->Name = L"aesTextToEnc";
-			this->aesTextToEnc->Size = System::Drawing::Size(457, 88);
-			this->aesTextToEnc->TabIndex = 0;
+			this->AESEncryptTextBox->Location = System::Drawing::Point(36, 39);
+			this->AESEncryptTextBox->Multiline = true;
+			this->AESEncryptTextBox->Name = L"AESEncryptTextBox";
+			this->AESEncryptTextBox->Size = System::Drawing::Size(582, 88);
+			this->AESEncryptTextBox->TabIndex = 0;
 			// 
 			// tabPage5
 			// 
@@ -315,6 +297,7 @@ namespace newCypherApp {
 			// 
 			// tabPage2
 			// 
+			this->tabPage2->Controls->Add(this->rsaEnc);
 			this->tabPage2->Location = System::Drawing::Point(4, 25);
 			this->tabPage2->Name = L"tabPage2";
 			this->tabPage2->Padding = System::Windows::Forms::Padding(3);
@@ -322,6 +305,16 @@ namespace newCypherApp {
 			this->tabPage2->TabIndex = 1;
 			this->tabPage2->Text = L"tabPage2";
 			this->tabPage2->UseVisualStyleBackColor = true;
+			// 
+			// rsaEnc
+			// 
+			this->rsaEnc->Location = System::Drawing::Point(377, 143);
+			this->rsaEnc->Name = L"rsaEnc";
+			this->rsaEnc->Size = System::Drawing::Size(170, 48);
+			this->rsaEnc->TabIndex = 3;
+			this->rsaEnc->Text = L"Encrypt";
+			this->rsaEnc->UseVisualStyleBackColor = true;
+			this->rsaEnc->Click += gcnew System::EventHandler(this, &cypherApp::rsaEnc_Click);
 			// 
 			// tabPage3
 			// 
@@ -348,6 +341,7 @@ namespace newCypherApp {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gridAesEn))->EndInit();
 			this->aesPanelEn->ResumeLayout(false);
 			this->aesPanelEn->PerformLayout();
+			this->tabPage2->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
@@ -355,5 +349,9 @@ namespace newCypherApp {
 
 	private: 
 		System::Void aesEncrypt_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void load_formFile_Click(System::Object^ sender, System::EventArgs^ e);
+		System::Void rsaEnc_Click(System::Object^ sender, System::EventArgs^ e);
+		String^ GenerateControlName(Object^ sender);
+		TextBox^ GetTextBoxByName(Object^ sender, String^ name);
 };
 }

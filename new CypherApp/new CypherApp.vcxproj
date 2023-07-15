@@ -78,6 +78,11 @@
     <LibraryPath>C:\git vcpacke\vcpkg\installed\x64-windows\lib;$(LibraryPath)</LibraryPath>
     <SourcePath>C:\git vcpacke\vcpkg\installed\x64-windows\include;$(SourcePath)</SourcePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ReferencePath>libssl.lib;libcrypto.lib;%(AdditionalDependencies)</ReferencePath>
+    <LibraryPath>C:\git vcpacke\vcpkg\installed\x64-windows\lib;$(LibraryPath)</LibraryPath>
+    <SourcePath>C:\git vcpacke\vcpkg\installed\x64-windows\include;$(SourcePath)</SourcePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -106,7 +111,9 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies />
+      <AdditionalDependencies>libssl.lib;libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <SubSystem>Windows</SubSystem>
+      <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

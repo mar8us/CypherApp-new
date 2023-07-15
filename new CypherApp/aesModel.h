@@ -27,22 +27,22 @@ public:
 	//void saveIV(std::string filePath);
 	//void saveEncryptedText(std::string filePath);
 
-	std::vector<unsigned char> getIV()
+	std::vector<unsigned char>& getIV()
 	{
 		return iv;
 	}
 
-	std::vector<unsigned char> getKey()
+	std::vector<unsigned char>& getKey()
 	{
 		return key;
 	}
 
-	void setKey(std::vector<unsigned char> newKey)
+	void setKey(std::vector<unsigned char>& newKey)
 	{
 		key = newKey;
 	}
 
-	std::vector<unsigned char> getCypher_Msg()
+	std::vector<unsigned char>& getCypher_Msg()
 	{
 		return cypher_msg;
 	}
@@ -57,13 +57,19 @@ private:
 	std::vector<unsigned char> cypher_msg;
 };
 
+class BaseCtrl
+{
+public:
+	BaseCtrl()
+	{	}
+	std::vector<unsigned char> readFromFile(System::String^ filePath);
+};
 
-class AesCtrl
+class AesCtrl : public BaseCtrl
 {
 public:
 	AesCtrl(int keyLength) : aes(std::make_unique<qto::AesModel>(keyLength))
 	{	
-		
 		aes->generateKey();			
 		aes->generateIV();
 	}

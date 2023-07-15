@@ -92,11 +92,21 @@ void AesModel::saveToFile(std::string filePath)
     out.close();
 }
 
+
+std::vector<unsigned char> BaseCtrl::readFromFile(System::String^ filePath)
+{
+    std::string file_path = tools::systemStringToString(filePath);
+    std::ifstream input_stream(file_path, std::ios::binary);
+    std::vector<unsigned char> input_data((std::istreambuf_iterator<char>(input_stream)), std::istreambuf_iterator<char>());
+    input_stream.close();
+    return input_data;
+}
+
 System::String^ AesCtrl::encryptAes(System::String^ input)
 {
     const std::vector<unsigned char> intput = tools::convert_SystemString_to_vector(input);
     const std::vector<unsigned char> encryptedData = aes->encryptAes(intput);
-    return tools::convert_CharVector_to_SystemString(encryptedData);
+    return tools::convert_Bytes_To_HexString(encryptedData);
 }
 
 void AesCtrl::saveToFile(std::string filePath)
