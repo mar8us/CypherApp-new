@@ -19,7 +19,7 @@ After you installing vcpkg you can proceed to install OpenSSL. Use this command 
 ```
 ### Project Configuration
 Once OpenSSL has been installed and vcpkg is integrated with Visual Studio, you'll need to configure your project to use OpenSSL. Here are the steps:
-Configure project properties: Right click on the project in the Solution Explorer and select "Properties".
+* Configure project properties: Right click on the project in the Solution Explorer and select "Properties".
 
 * Update include directories:
 In the Project Properties window, navigate to Configuration Properties -> VC++ Directories.
