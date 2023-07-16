@@ -5,10 +5,10 @@ Hello!
 This is a project created for education. 
 
 Background information for this project:
-*Visual Studio 2017 CLR project
-*using OpenSSL 3.0 to implement basic cryptography alghoritm like AES, RSA, SHA-2
+* Visual Studio 2017 CLR project
+* using OpenSSL 3.0 to implement basic cryptography alghoritm like AES, RSA, SHA-2
 
-##Setup
+## Setup
 To compile this project, you have to install OpenSSL and add it to Visual Studio. I did this using vcpkg because I think it's a simple way to achieve this.
 vcpkg: https://github.com/microsoft/vcpkg
 
