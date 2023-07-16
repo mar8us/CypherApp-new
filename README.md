@@ -12,4 +12,4 @@ To compile this project, you have to install OpenSSL and add it to Visual Studio
 vcpkg: https://github.com/microsoft/vcpkg
 
 After you installing vcpkg you can proceed to install OpenSSL. Use this command in the terminal:
-.\vcpkg install openssl:x64-windows
+'''.\vcpkg install openssl:x64-windows'''
